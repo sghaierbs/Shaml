@@ -1,0 +1,44 @@
+# .NET
+bin/
+obj/
+artifacts/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Tests
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+secrets.json
