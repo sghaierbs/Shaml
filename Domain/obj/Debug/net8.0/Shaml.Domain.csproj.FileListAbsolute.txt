@@ -1,0 +1,11 @@
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/bin/Debug/net8.0/Shaml.Domain.deps.json
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/bin/Debug/net8.0/Shaml.Domain.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/bin/Debug/net8.0/Shaml.Domain.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.AssemblyInfoInputs.cache
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.AssemblyInfo.cs
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.csproj.CoreCompileInputs.cache
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/refint/Shaml.Domain.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/Shaml.Domain.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Domain/obj/Debug/net8.0/ref/Shaml.Domain.dll

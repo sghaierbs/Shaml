@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Shaml.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Shaml.Application": "1.0.0",
+          "Shaml.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Shaml.Infrastructure.dll": {}
+        }
+      },
+      "Shaml.Application/1.0.0": {
+        "dependencies": {
+          "Shaml.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Shaml.Application.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Shaml.Domain/1.0.0": {
+        "runtime": {
+          "Shaml.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Shaml.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shaml.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shaml.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jG9PTR7BiDU=",
+  "success": true,
+  "projectFilePath": "/Users/sbs/Documents/RiderSolutions/Shaml/Application/Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/sbs/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.2/microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "/Users/sbs/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.2/microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,17 @@
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Infrastructure.deps.json
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Infrastructure.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Infrastructure.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Application.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Domain.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Application.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/bin/Debug/net8.0/Shaml.Domain.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.csproj.AssemblyReference.cache
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.AssemblyInfoInputs.cache
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.AssemblyInfo.cs
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.In.F2D5903D.Up2Date
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/refint/Shaml.Infrastructure.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/Shaml.Infrastructure.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/Shaml.Infrastructure/obj/Debug/net8.0/ref/Shaml.Infrastructure.dll
