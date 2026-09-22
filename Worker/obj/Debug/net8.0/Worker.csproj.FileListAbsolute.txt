@@ -59,3 +59,4 @@
 /Users/sbs/Documents/RiderSolutions/Shaml/Worker/obj/Debug/net8.0/Worker.pdb
 /Users/sbs/Documents/RiderSolutions/Shaml/Worker/obj/Debug/net8.0/Worker.genruntimeconfig.cache
 /Users/sbs/Documents/RiderSolutions/Shaml/Worker/obj/Debug/net8.0/ref/Worker.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Worker/obj/Debug/net8.0/Worker.sourcelink.json

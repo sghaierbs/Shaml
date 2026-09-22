@@ -1,6 +1,7 @@
 using Application.Common.Events;
 using Application.Common.Interfaces;
 using Domain.Cases;
+using Domain.Centers;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ public sealed class ShamlDbContext : DbContext, IUnitOfWork
     }
 
     public DbSet<Case> Cases => Set<Case>();
+    public DbSet<Center> Centers => Set<Center>();
 
     protected override void OnModelCreating(
         ModelBuilder modelBuilder)

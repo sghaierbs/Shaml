@@ -17,3 +17,4 @@
 /Users/sbs/Documents/RiderSolutions/Shaml/Infrastructure/obj/Debug/net8.0/Infrastructure.pdb
 /Users/sbs/Documents/RiderSolutions/Shaml/Infrastructure/obj/Debug/net8.0/Infrastructure.genruntimeconfig.cache
 /Users/sbs/Documents/RiderSolutions/Shaml/Infrastructure/obj/Debug/net8.0/ref/Infrastructure.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/Infrastructure/obj/Debug/net8.0/Infrastructure.sourcelink.json

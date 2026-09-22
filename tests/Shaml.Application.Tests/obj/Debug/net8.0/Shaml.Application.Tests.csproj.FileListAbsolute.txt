@@ -103,3 +103,4 @@
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Application.Tests/bin/Debug/net8.0/Application.pdb
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Application.Tests/bin/Debug/net8.0/Domain.pdb
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Application.Tests/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Application.Tests/obj/Debug/net8.0/Shaml.Application.Tests.sourcelink.json

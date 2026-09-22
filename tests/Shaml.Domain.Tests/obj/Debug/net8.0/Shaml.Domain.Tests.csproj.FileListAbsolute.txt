@@ -99,3 +99,4 @@
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Domain.Tests/obj/Debug/net8.0/ref/Shaml.Domain.Tests.dll
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Domain.Tests/bin/Debug/net8.0/Domain.dll
 /Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Domain.Tests/bin/Debug/net8.0/Domain.pdb
+/Users/sbs/Documents/RiderSolutions/Shaml/tests/Shaml.Domain.Tests/obj/Debug/net8.0/Shaml.Domain.Tests.sourcelink.json

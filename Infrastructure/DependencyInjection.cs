@@ -29,6 +29,8 @@ public static class DependencyInjection
             provider => provider.GetRequiredService<ShamlDbContext>());
         
         services.AddScoped<IDomainEventDispatcher,DomainEventDispatcher>();
+        
+        services.AddScoped<ICenterRepository, CenterRepository>();
 
         return services;
     }
