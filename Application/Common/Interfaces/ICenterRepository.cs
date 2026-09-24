@@ -11,4 +11,8 @@ public interface ICenterRepository
     Task<Center?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default);
+    
+    Task<bool> ExistsByCodeAsync(
+        string code,
+        CancellationToken cancellationToken = default);
 }

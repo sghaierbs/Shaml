@@ -19,6 +19,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapUserEndpoints();
 
+app.MapCenterEndpoints();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

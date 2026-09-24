@@ -31,4 +31,14 @@ public class CenterRepository : ICenterRepository
                 x => x.Id == id,
                 cancellationToken);
     }
+    
+    public async Task<bool> ExistsByCodeAsync(
+        string code,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Centers
+            .AnyAsync(
+                center => center.Code == code,
+                cancellationToken);
+    }
 }
