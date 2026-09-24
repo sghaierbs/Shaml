@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Common.Interfaces;
+using Infrastructure.Events;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
-using Shaml.Infrastructure.Events;
+using Infrastructure.Events;
 
 namespace Infrastructure;
 

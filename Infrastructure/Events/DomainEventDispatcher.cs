@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.Common.Events;
 using Domain.Common;
 
-namespace Shaml.Infrastructure.Events;
+namespace Infrastructure.Events;
 
 public sealed class DomainEventDispatcher : IDomainEventDispatcher
 {
