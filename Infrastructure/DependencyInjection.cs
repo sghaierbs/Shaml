@@ -31,6 +31,12 @@ public static class DependencyInjection
         services.AddScoped<IDomainEventDispatcher,DomainEventDispatcher>();
         
         services.AddScoped<ICenterRepository, CenterRepository>();
+        
+        services.AddScoped<IUserRepository, UserRepository>();
+        
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
         return services;
     }

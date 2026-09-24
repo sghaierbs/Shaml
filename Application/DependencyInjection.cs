@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.Cases.CreateCase;
 using Application.Cases.EventHandlers;
 using Application.Common.Events;
+using Application.Identity.AssignRole;
+using Application.Identity.ProvisionUser;
 using Domain.Cases.Events;
 
 namespace Application;
@@ -13,8 +15,11 @@ public static class DependencyInjection
     {
         services.AddScoped<CreateCaseHandler>();
         
-        services.AddScoped<
-            IDomainEventHandler<CaseCreatedEvent>,CaseCreatedEventHandler>();
+        services.AddScoped<IDomainEventHandler<CaseCreatedEvent>,CaseCreatedEventHandler>();
+        
+        services.AddScoped<AssignRoleToUserHandler>();
+        
+        services.AddScoped<ProvisionUserHandler>();
         
         return services;
     }

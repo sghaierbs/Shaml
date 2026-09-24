@@ -1,3 +1,5 @@
+using Api.Endpoints;
+using Api.Middleware;
 using Application;
 using Infrastructure;
 
@@ -12,6 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.MapUserEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

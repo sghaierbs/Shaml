@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ShamlDbContext))]
-    partial class ShamlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260922114329_AddIdentityAndAuthorization")]
+    partial class AddIdentityAndAuthorization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,56 +125,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Permissions", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Code = "center.view",
-                            Description = "View Shaml centers"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Code = "center.manage",
-                            Description = "Manage Shaml centers"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Code = "case.view",
-                            Description = "View cases"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Code = "case.assign",
-                            Description = "Assign cases"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Code = "session.view",
-                            Description = "View sessions"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Code = "session.schedule",
-                            Description = "Schedule sessions"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Code = "user.view",
-                            Description = "View users"
-                        },
-                        new
-                        {
-                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Code = "user.assign-role",
-                            Description = "Assign roles to users"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Identity.Role", b =>
@@ -208,38 +161,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("20000000-0000-0000-0000-000000000001"),
-                            Code = "center-director",
-                            IsActive = true,
-                            IsSystem = true,
-                            Name = "Center Director",
-                            Portal = 1,
-                            ScopeType = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("20000000-0000-0000-0000-000000000002"),
-                            Code = "specialist",
-                            IsActive = true,
-                            IsSystem = true,
-                            Name = "Specialist",
-                            Portal = 1,
-                            ScopeType = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("20000000-0000-0000-0000-000000000003"),
-                            Code = "operations-supervisor",
-                            IsActive = true,
-                            IsSystem = true,
-                            Name = "Operations Supervisor",
-                            Portal = 1,
-                            ScopeType = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Identity.RolePermission", b =>
