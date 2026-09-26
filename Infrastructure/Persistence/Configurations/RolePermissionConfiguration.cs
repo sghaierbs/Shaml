@@ -35,5 +35,19 @@ public class RolePermissionConfiguration
                 x.PermissionId
             })
             .IsUnique();
+        
+        builder.HasData(
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000001"),
+                RoleId = SystemRoleIds.PublicUser,
+                PermissionId = SystemPermissionIds.CaseView
+            },
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000002"),
+                RoleId = SystemRoleIds.PublicUser,
+                PermissionId = SystemPermissionIds.SessionView
+            });
     }
 }

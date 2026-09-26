@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ShamlDbContext))]
-    [Migration("20260926144851_AddPublicUserRole")]
+    [Migration("20260926150055_AddPublicUserRole")]
     partial class AddPublicUserRole
     {
         /// <inheritdoc />
@@ -242,6 +242,16 @@ namespace Infrastructure.Persistence.Migrations
                             Name = "Operations Supervisor",
                             Portal = 1,
                             ScopeType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000004"),
+                            Code = "public-user",
+                            IsActive = true,
+                            IsSystem = true,
+                            Name = "Public User",
+                            Portal = 2,
+                            ScopeType = 3
                         });
                 });
 
@@ -265,6 +275,20 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("RolePermissions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            RoleId = new Guid("20000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000002"),
+                            PermissionId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            RoleId = new Guid("20000000-0000-0000-0000-000000000004")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Identity.User", b =>

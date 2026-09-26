@@ -67,6 +67,16 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
                 ScopeType = ScopeType.Organization,
                 IsSystem = true,
                 IsActive = true
+            },
+            new
+            {
+                Id = SystemRoleIds.PublicUser,
+                Code = "public-user",
+                Name = "Public User",
+                Portal = PortalType.Public,
+                ScopeType = ScopeType.Self,
+                IsSystem = true,
+                IsActive = true
             });
     }
 }
