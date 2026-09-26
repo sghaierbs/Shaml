@@ -13,4 +13,12 @@ public interface IUserRoleRepository
         Guid roleId,
         Guid? centerId,
         CancellationToken cancellationToken = default);
+    
+    Task<UserRole?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyCollection<UserRole>> GetByUserIdAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default);
 }
