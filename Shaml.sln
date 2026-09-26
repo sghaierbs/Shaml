@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-#
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{8A303D6A-A688-482B-AC79-EE9925E2926F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{88E82146-4906-4966-88EB-9F4AEB88971B}"
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shaml.Domain.Tests", "tests\Shaml.Domain.Tests\Shaml.Domain.Tests.csproj", "{6AF858C4-4F2E-492D-BF81-C6EE243080BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shaml.Application.Tests", "tests\Shaml.Application.Tests\Shaml.Application.Tests.csproj", "{1CF23012-9DD8-4DED-8EED-FB4CB684860E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shaml.Infrastructure.Tests", "tests\Shaml.Infrastructure.Tests\Shaml.Infrastructure.Tests.csproj", "{297DA47E-0CAC-43AB-8D1B-E595902555A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +53,14 @@ Global
 		{1CF23012-9DD8-4DED-8EED-FB4CB684860E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CF23012-9DD8-4DED-8EED-FB4CB684860E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CF23012-9DD8-4DED-8EED-FB4CB684860E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{297DA47E-0CAC-43AB-8D1B-E595902555A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{297DA47E-0CAC-43AB-8D1B-E595902555A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{297DA47E-0CAC-43AB-8D1B-E595902555A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{297DA47E-0CAC-43AB-8D1B-E595902555A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6AF858C4-4F2E-492D-BF81-C6EE243080BF} = {54BFCCB4-295F-4720-8AC2-197994A73B03}
 		{1CF23012-9DD8-4DED-8EED-FB4CB684860E} = {54BFCCB4-295F-4720-8AC2-197994A73B03}
+		{297DA47E-0CAC-43AB-8D1B-E595902555A6} = {54BFCCB4-295F-4720-8AC2-197994A73B03}
 	EndGlobalSection
 EndGlobal

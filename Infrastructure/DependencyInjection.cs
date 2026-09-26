@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Common.Interfaces;
+using Application.Identity.Permissions;
 using Infrastructure.Events;
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
-using Infrastructure.Events;
 
 namespace Infrastructure;
 
@@ -38,6 +39,8 @@ public static class DependencyInjection
         services.AddScoped<IRoleRepository, RoleRepository>();
         
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        
+        services.AddScoped<IPermissionService, PermissionService>();
 
         return services;
     }
