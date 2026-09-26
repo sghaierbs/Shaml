@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Common.Interfaces;
 using Application.Identity.Permissions;
+using Application.Identity.Tokens;
 using Infrastructure.Events;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
@@ -41,6 +42,8 @@ public static class DependencyInjection
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         
         services.AddScoped<IPermissionService, PermissionService>();
+        
+        services.AddScoped<ITokenService, JwtTokenService>();
 
         return services;
     }

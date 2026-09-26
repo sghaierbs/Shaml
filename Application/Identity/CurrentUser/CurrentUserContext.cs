@@ -1,12 +1,13 @@
 using Application.Common.Interfaces;
+using Domain.Identity;
 
 namespace Application.Identity.CurrentUser;
-
+    
 public sealed record CurrentUserContext(
-    bool IsAuthenticated,
-    string? ExternalId,
-    Guid? UserId,
-    Guid? ActiveUserRoleId,
-    Guid? ActiveRoleId,
-    Guid? ActiveCenterId)
-    : ICurrentUserContext;
+    Guid UserId,
+    string ExternalId,
+    Guid ActiveUserRoleId,
+    Guid RoleId,
+    PortalType Portal,
+    ScopeType ScopeType,
+    Guid? CenterId): ICurrentUserContext;

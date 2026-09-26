@@ -66,12 +66,13 @@ public sealed class CurrentUserContextResolver : ICurrentUserContextResolver
         }
 
         return new CurrentUserContext(
-            IsAuthenticated: true,
-            ExternalId: user.ExternalId,
             UserId: user.Id,
+            ExternalId: user.ExternalId,
             ActiveUserRoleId: userRole.Id,
-            ActiveRoleId: userRole.RoleId,
-            ActiveCenterId: userRole.CenterId);
+            RoleId: role.Id,
+            Portal: role.Portal,
+            ScopeType: role.ScopeType,
+            CenterId: userRole.CenterId);
     }
 
     private async Task<Domain.Identity.UserRole> ResolveRequestedUserRoleAsync(

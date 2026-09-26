@@ -21,6 +21,8 @@ app.MapUserEndpoints();
 
 app.MapCenterEndpoints();
 
+app.MapCurrentUserEndpoints();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

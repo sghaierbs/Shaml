@@ -1,16 +1,20 @@
+using Domain.Identity;
+
 namespace Application.Common.Interfaces;
 
 public interface ICurrentUserContext
 {
-    bool IsAuthenticated { get; }
+    Guid UserId { get; }
 
-    string? ExternalId { get; }
+    string ExternalId { get; }
 
-    Guid? UserId { get; }
+    Guid ActiveUserRoleId { get; }
 
-    Guid? ActiveUserRoleId { get; }
+    Guid RoleId { get; }
 
-    Guid? ActiveRoleId { get; }
+    PortalType Portal { get; }
 
-    Guid? ActiveCenterId { get; }
+    ScopeType ScopeType { get; }
+
+    Guid? CenterId { get; }
 }

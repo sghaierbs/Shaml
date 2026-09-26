@@ -9,12 +9,16 @@ namespace Shaml.Application.Tests.Identity.ProvisionUser;
 public class ProvisionUserHandlerTests
 {
     private readonly Mock<IUserRepository> _users = new();
+    private readonly Mock<IRoleRepository> _roles = new();
+    private readonly Mock<IUserRoleRepository> _userRoles = new();
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
 
     private ProvisionUserHandler CreateHandler()
     {
         return new ProvisionUserHandler(
             _users.Object,
+            _roles.Object,
+            _userRoles.Object,
             _unitOfWork.Object);
     }
 
@@ -30,6 +34,18 @@ public class ProvisionUserHandlerTests
                 externalId,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
+        
+        var publicRole = Role.Create(
+            "public-user",
+            "Public User",
+            PortalType.Public,
+            ScopeType.Self);
+
+        _roles
+            .Setup(x => x.GetByIdAsync(
+                SystemRoleIds.PublicUser,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(publicRole);
 
         var handler = CreateHandler();
 
