@@ -35,4 +35,27 @@ public class UserRoleRepository : IUserRoleRepository
                 x.CenterId == centerId,
             cancellationToken);
     }
+    
+    public Task<UserRole?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        return _dbContext.UserRoles
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<UserRole>> GetByUserIdAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.UserRoles
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.IsDefault)
+            .ThenBy(x => x.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+    }
 }
