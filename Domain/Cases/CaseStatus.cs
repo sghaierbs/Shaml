@@ -3,7 +3,8 @@ namespace Domain.Cases;
 public enum CaseStatus
 {
     New = 1,
-    InProgress = 2,
-    Completed = 3,
-    Cancelled = 4
+    WaitingForSpecialist = 2,
+    InProgress = 3,
+    Completed = 4,
+    Cancelled = 5
 }

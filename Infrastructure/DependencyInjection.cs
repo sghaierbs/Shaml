@@ -44,6 +44,8 @@ public static class DependencyInjection
         services.AddScoped<IPermissionService, PermissionService>();
         
         services.AddScoped<ITokenService, JwtTokenService>();
+        
+        services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 
         return services;
     }

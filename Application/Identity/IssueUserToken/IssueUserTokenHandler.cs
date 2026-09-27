@@ -1,37 +1,34 @@
-using Application.Common.Interfaces;
 using Application.Identity.CurrentUser;
 using Application.Identity.Permissions;
 using Application.Identity.Tokens;
 
-namespace Application.Identity.SwitchRole;
+namespace Application.Identity.IssueUserToken;
 
-public sealed class SwitchRoleHandler
+public sealed class IssueUserTokenHandler
 {
-    private readonly ICurrentUserContext _currentUser;
     private readonly ICurrentUserContextResolver _currentUserContextResolver;
     private readonly IPermissionService _permissionService;
     private readonly ITokenService _tokenService;
 
-    public SwitchRoleHandler(
-        ICurrentUserContext currentUser,
+    public IssueUserTokenHandler(
         ICurrentUserContextResolver currentUserContextResolver,
         IPermissionService permissionService,
         ITokenService tokenService)
     {
-        _currentUser = currentUser;
         _currentUserContextResolver = currentUserContextResolver;
         _permissionService = permissionService;
         _tokenService = tokenService;
     }
 
-    public async Task<SwitchRoleResult> HandleAsync(
-        SwitchRoleCommand command,
+    public async Task<IssueUserTokenResult> HandleAsync(
+        IssueUserTokenCommand command,
         CancellationToken cancellationToken = default)
     {
+        // null means: resolve the user's default UserRole.
         var context =
             await _currentUserContextResolver.ResolveAsync(
-                _currentUser.ExternalId,
-                command.UserRoleId,
+                command.ExternalId,
+                requestedUserRoleId: null,
                 cancellationToken);
 
         var permissions =
@@ -43,7 +40,7 @@ public sealed class SwitchRoleHandler
             context,
             permissions);
 
-        return new SwitchRoleResult(
+        return new IssueUserTokenResult(
             token.AccessToken,
             token.ExpiresAtUtc);
     }

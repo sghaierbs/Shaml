@@ -1,3 +1,4 @@
+using Api.Authentication;
 using Api.Endpoints;
 using Api.Middleware;
 using Application;
@@ -12,10 +13,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddShamlAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapUserEndpoints();
 

@@ -1,5 +1,6 @@
 using Application.Common.Events;
 using Application.Common.Interfaces;
+using Domain.Assignments;
 using Domain.Cases;
 using Domain.Centers;
 using Domain.Common;
@@ -25,6 +26,7 @@ public sealed class ShamlDbContext : DbContext, IUnitOfWork
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+    public DbSet<Assignment> Assignments => Set<Assignment>();
 
     protected override void OnModelCreating(
         ModelBuilder modelBuilder)
@@ -35,9 +37,12 @@ public sealed class ShamlDbContext : DbContext, IUnitOfWork
             typeof(ShamlDbContext).Assembly);
     }
     
-    public override async Task<int> SaveChangesAsync(
-        CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        foreach (var entry in ChangeTracker.Entries<Assignment>().Where(x => x.State == EntityState.Modified))
+        {
+            entry.Entity.RefreshConcurrencyToken();
+        }
         var result = await base.SaveChangesAsync(cancellationToken);
 
         var aggregateRoots = ChangeTracker
