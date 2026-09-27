@@ -5,6 +5,7 @@ using Application.Assignments.GetRoleQueue;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Cases.CreateCase;
 using Application.Cases.EventHandlers;
+using Application.Cases.RouteToSpecialist;
 using Application.Centers.CreateCenter;
 using Application.Common.Events;
 using Application.Identity.AssignRole;
@@ -47,6 +48,8 @@ public static class DependencyInjection
         services.AddScoped<GetRoleQueueHandler>();
         
         services.AddScoped<GetMyWorkHandler>();
+        
+        services.AddScoped<RouteCaseToSpecialistHandler>();
         
         return services;
     }

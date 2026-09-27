@@ -1,5 +1,5 @@
 namespace Application.Cases.CreateCase;
 
 public sealed record CreateCaseCommand(
-    string CaseNumber
-);
+    string CaseNumber,
+    Guid CenterId);

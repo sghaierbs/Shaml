@@ -30,7 +30,7 @@ public class CreateCaseHandlerTests
             unitOfWork);
 
         var command = new CreateCaseCommand(
-            "SHAML-000001");
+            "SHAML-000001", Guid.NewGuid());
 
         var result = await handler.HandleAsync(command);
 
@@ -52,6 +52,13 @@ public class CreateCaseHandlerTests
             SavedCase = shamlCase;
 
             return Task.CompletedTask;
+        }
+
+        public Task<Case?> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<Case?>(null);
         }
     }
 }

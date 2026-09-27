@@ -20,7 +20,9 @@ public sealed class CreateCaseHandler
         CreateCaseCommand command,
         CancellationToken cancellationToken = default)
     {
-        var shamlCase = Case.Create(command.CaseNumber);
+        var shamlCase = Case.Create(
+            command.CaseNumber,
+            command.CenterId);
 
         await _caseRepository.AddAsync(
             shamlCase,

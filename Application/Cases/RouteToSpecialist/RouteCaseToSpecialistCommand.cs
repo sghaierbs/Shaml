@@ -1,6 +1,6 @@
 namespace Application.Cases.RouteToSpecialist;
 
-public class RouteCaseToSpecialistCommand
-{
-    
-}
+public sealed record RouteCaseToSpecialistCommand(
+    Guid CaseId,
+    Guid SpecialistRoleId,
+    Guid CenterId);

@@ -7,6 +7,8 @@ namespace Domain.Cases;
 public sealed class Case : AggregateRoot
 {
     public string CaseNumber { get; private set; } = null!;
+    
+    public Guid CenterId { get; private set; }
 
     public CaseStatus Status { get; private set; }
 
@@ -19,9 +21,11 @@ public sealed class Case : AggregateRoot
     private Case(
         Guid id,
         string caseNumber,
+        Guid centerId,
         DateTime createdAtUtc) : base(id)
     {
         CaseNumber = caseNumber;
+        CenterId = centerId;
         Status = CaseStatus.New;
         CreatedAtUtc = createdAtUtc;
 
@@ -31,20 +35,29 @@ public sealed class Case : AggregateRoot
                 createdAtUtc));
     }
 
-    public static Case Create(string caseNumber)
+    public static Case Create(
+        string caseNumber,
+        Guid centerId)
     {
         if (string.IsNullOrWhiteSpace(caseNumber))
+        {
             throw new ArgumentException(
                 "Case number is required.",
                 nameof(caseNumber));
+        }
 
-        var id = Guid.NewGuid();
-        var now = DateTime.UtcNow;
+        if (centerId == Guid.Empty)
+        {
+            throw new ArgumentException(
+                "CenterId is required.",
+                nameof(centerId));
+        }
 
         return new Case(
-            id,
+            Guid.NewGuid(),
             caseNumber.Trim(),
-            now);
+            centerId,
+            DateTime.UtcNow);
     }
     
     public void Start()

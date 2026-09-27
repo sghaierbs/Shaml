@@ -1,5 +1,6 @@
 using Application.Common.Interfaces;
 using Domain.Cases;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -19,5 +20,15 @@ public sealed class CaseRepository : ICaseRepository
         await _dbContext.Cases.AddAsync(
             shamlCase,
             cancellationToken);
+    }
+    
+    public async Task<Case?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Cases
+            .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
     }
 }

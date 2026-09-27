@@ -10,7 +10,7 @@ public class CaseTests
     [Fact]
     public void WaitForSpecialist_NewCase_ShouldChangeStatus()
     {
-        var @case = Case.Create("CASE-001");
+        var @case = Case.Create("CASE-001",  Guid.NewGuid());
 
         @case.WaitForSpecialist();
 
@@ -22,7 +22,7 @@ public class CaseTests
     [Fact]
     public void Start_WaitingForSpecialistCase_ShouldChangeStatusToInProgress()
     {
-        var @case = Case.Create("CASE-001");
+        var @case = Case.Create("CASE-001", Guid.NewGuid());
 
         @case.WaitForSpecialist();
 
@@ -36,7 +36,7 @@ public class CaseTests
     [Fact]
     public void Create_ShouldCreateNewCase()
     {
-        var shamlCase = Case.Create("SHAML-000001");
+        var shamlCase = Case.Create("SHAML-000001", Guid.NewGuid());
 
         Assert.NotEqual(Guid.Empty, shamlCase.Id);
         Assert.Equal("SHAML-000001", shamlCase.CaseNumber);
@@ -51,7 +51,7 @@ public class CaseTests
     public void Start_WhenCaseIsNew_ShouldThrowInvalidOperationException()
     {
         // Arrange
-        var @case = Case.Create("CASE-001");
+        var @case = Case.Create("CASE-001", Guid.NewGuid());
 
         // Act
         var exception = Assert.Throws<InvalidOperationException>(
@@ -66,7 +66,7 @@ public class CaseTests
     [Fact]
     public void WaitForSpecialist_WhenCaseIsNew_ShouldChangeStatus()
     {
-        var @case = Case.Create("CASE-001");
+        var @case = Case.Create("CASE-001", Guid.NewGuid());
 
         @case.WaitForSpecialist();
 
@@ -79,7 +79,7 @@ public class CaseTests
     public void Complete_WhenCaseIsInProgress_ShouldCompleteCase()
     {
         // Arrange
-        var @case = Case.Create("CASE-001");
+        var @case = Case.Create("CASE-001", Guid.NewGuid());
 
         @case.WaitForSpecialist();
         @case.Start();
@@ -94,7 +94,7 @@ public class CaseTests
     [Fact]
     public void Complete_WhenCaseIsNew_ShouldThrowException()
     {
-        var shamlCase = Case.Create("SHAML-000001");
+        var shamlCase = Case.Create("SHAML-000001", Guid.NewGuid());
 
         Assert.Throws<InvalidOperationException>(
             () => shamlCase.Complete());

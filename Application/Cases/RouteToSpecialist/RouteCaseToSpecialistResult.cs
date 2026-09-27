@@ -1,6 +1,8 @@
+using Domain.Cases;
+
 namespace Application.Cases.RouteToSpecialist;
 
-public class RouteCaseToSpecialistResult
-{
-    
-}
+public sealed record RouteCaseToSpecialistResult(
+    Guid CaseId,
+    CaseStatus CaseStatus,
+    Guid AssignmentId);

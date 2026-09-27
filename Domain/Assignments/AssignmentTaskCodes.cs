@@ -1,4 +1,4 @@
-namespace Application.Assignments;
+namespace Domain.Assignments;
 
 public static class AssignmentTaskCodes
 {
