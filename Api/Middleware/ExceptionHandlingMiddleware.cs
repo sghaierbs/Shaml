@@ -36,8 +36,10 @@ public sealed class ExceptionHandlingMiddleware
         {
             NotFoundException => StatusCodes.Status404NotFound,
             ConflictException => StatusCodes.Status409Conflict,
+            ConcurrencyConflictException => StatusCodes.Status409Conflict,
             ArgumentException => StatusCodes.Status400BadRequest,
             InvalidOperationException => StatusCodes.Status400BadRequest,
+            UnauthorizedAccessException => StatusCodes.Status403Forbidden,
             _ => StatusCodes.Status500InternalServerError
         };
 
@@ -69,6 +71,7 @@ public sealed class ExceptionHandlingMiddleware
             400 => "Bad Request",
             404 => "Not Found",
             409 => "Conflict",
+            403 => "Forbidden",
             _ => "Internal Server Error"
         };
 }

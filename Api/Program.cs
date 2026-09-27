@@ -27,6 +27,7 @@ app.MapUserEndpoints();
 app.MapCenterEndpoints();
 
 app.MapCurrentUserEndpoints();
+app.MapAssignmentEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

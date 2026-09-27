@@ -1,4 +1,5 @@
 using Application.Common.Events;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Assignments;
 using Domain.Cases;
@@ -43,28 +44,34 @@ public sealed class ShamlDbContext : DbContext, IUnitOfWork
         {
             entry.Entity.RefreshConcurrencyToken();
         }
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        var aggregateRoots = ChangeTracker
-            .Entries<AggregateRoot>()
-            .Select(entry => entry.Entity)
-            .Where(entity => entity.DomainEvents.Count > 0)
-            .ToList();
-
-        var domainEvents = aggregateRoots
-            .SelectMany(entity => entity.DomainEvents)
-            .ToList();
-
-        foreach (var aggregateRoot in aggregateRoots)
+        try
         {
-            aggregateRoot.ClearDomainEvents();
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            var aggregateRoots = ChangeTracker
+                .Entries<AggregateRoot>()
+                .Select(entry => entry.Entity)
+                .Where(entity => entity.DomainEvents.Count > 0)
+                .ToList();
+
+            var domainEvents = aggregateRoots
+                .SelectMany(entity => entity.DomainEvents)
+                .ToList();
+
+            foreach (var aggregateRoot in aggregateRoots)
+            {
+                aggregateRoot.ClearDomainEvents();
+            }
+
+            await _domainEventDispatcher.DispatchAsync(
+                domainEvents,
+                cancellationToken);
+
+            return result;
         }
-
-        await _domainEventDispatcher.DispatchAsync(
-            domainEvents,
-            cancellationToken);
-
-        return result;
-        
+        catch (DbUpdateConcurrencyException ex)
+        {
+            throw new ConcurrencyConflictException("The data was modified by another request.", ex);
+        }
     }
 }

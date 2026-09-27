@@ -1,3 +1,4 @@
+using Application.Assignments.ClaimAssignment;
 using Application.Assignments.CreateAssignment;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Cases.CreateCase;
@@ -38,6 +39,8 @@ public static class DependencyInjection
         services.AddScoped<IssueUserTokenHandler>();
         
         services.AddScoped<CreateAssignmentHandler>();
+        
+        services.AddScoped<ClaimAssignmentHandler>();
         
         return services;
     }
