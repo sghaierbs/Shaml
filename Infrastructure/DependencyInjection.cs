@@ -48,7 +48,9 @@ public static class DependencyInjection
         
         services.AddScoped<IAssignmentRepository, AssignmentRepository>();
         
-        services.AddShamlElsa();
+        services.AddShamlElsa(configuration);
+        
+        services.AddScoped<IOutboxRepository, OutboxRepository>();
 
         return services;
     }

@@ -1,8 +1,10 @@
+using System.Text.Json;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Assignments;
 using Domain.Cases;
 using Domain.Centers;
+using Domain.Common.Outbox;
 
 namespace Application.Cases.CreateCase;
 
@@ -15,18 +17,21 @@ public sealed class CreateCaseHandler
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IOutboxRepository _outboxRepository;
 
     public CreateCaseHandler(
         ICaseRepository caseRepository,
         IAssignmentRepository assignmentRepository,
         IRoleRepository roleRepository,
         ICenterRepository centerRepository,
+        IOutboxRepository outboxRepository,
         IUnitOfWork unitOfWork)
     {
         _caseRepository = caseRepository;
         _assignmentRepository = assignmentRepository;
         _roleRepository = roleRepository;
         _centerRepository = centerRepository;
+        _outboxRepository = outboxRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -83,6 +88,17 @@ public sealed class CreateCaseHandler
 
         await _assignmentRepository.AddAsync(
             assignment,
+            cancellationToken);
+        
+        var payload = new CaseCreatedOutboxPayload(shamlCase.Id);
+
+        var outboxMessage = OutboxMessage.Create(
+            OutboxMessageTypes.CaseCreated,
+            JsonSerializer.Serialize(payload),
+            DateTime.UtcNow);
+
+        await _outboxRepository.AddAsync(
+            outboxMessage,
             cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(

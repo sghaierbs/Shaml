@@ -5,6 +5,7 @@ using Domain.Assignments;
 using Domain.Cases;
 using Domain.Centers;
 using Domain.Common;
+using Domain.Common.Outbox;
 using Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ public sealed class ShamlDbContext : DbContext, IUnitOfWork
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Assignment> Assignments => Set<Assignment>();
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(
         ModelBuilder modelBuilder)

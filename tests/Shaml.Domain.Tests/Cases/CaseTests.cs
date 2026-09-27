@@ -1,6 +1,4 @@
 using Domain.Cases;
-using Domain.Cases;
-using Domain.Cases.Events;
 using Domain.Cases.Events;
 
 namespace Shaml.Domain.Tests.Cases;

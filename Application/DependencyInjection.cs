@@ -7,6 +7,7 @@ using Application.Cases.CreateCase;
 using Application.Cases.EventHandlers;
 using Application.Centers.CreateCenter;
 using Application.Common.Events;
+using Application.Common.Outbox;
 using Application.Identity.AssignRole;
 using Application.Identity.CurrentUser;
 using Application.Identity.GetUserRoles;
@@ -47,6 +48,8 @@ public static class DependencyInjection
         services.AddScoped<GetRoleQueueHandler>();
         
         services.AddScoped<GetMyWorkHandler>();
+        
+        services.AddScoped<OutboxProcessor>();
         
         return services;
     }
