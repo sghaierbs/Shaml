@@ -1,6 +1,6 @@
 using Domain.Common;
 
-namespace Shaml.Domain.Cases.Events;
+namespace Domain.Cases.Events;
 
 public sealed record CaseStartedEvent(
     Guid CaseId,

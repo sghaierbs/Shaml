@@ -1,7 +1,6 @@
 using Api.Contracts.Cases;
 using Microsoft.AspNetCore.Mvc;
 using Application.Cases.CreateCase;
-using Application.Cases.RouteToSpecialist;
 
 namespace Api.Controllers;
 
@@ -32,19 +31,6 @@ public sealed class CasesController : ControllerBase
         return Created(
             $"/api/cases/{result.Id}",
             result);
-    }
-    
-    [HttpPost("{caseId:guid}/route-to-specialist")]
-    public async Task<IActionResult> RouteToSpecialist(Guid caseId, RouteToSpecialistRequest request, [FromServices] RouteCaseToSpecialistHandler handler, CancellationToken cancellationToken)
-    {
-        var result = await handler.HandleAsync(
-            new RouteCaseToSpecialistCommand(
-                caseId,
-                request.SpecialistRoleId,
-                request.CenterId),
-            cancellationToken);
-
-        return Ok(result);
     }
 }
 

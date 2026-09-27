@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.Cases;
+using Domain.Centers;
 
 namespace Infrastructure.Persistence.Configurations;
 
@@ -31,6 +32,11 @@ public sealed class CaseConfiguration :
 
         builder.Property(x => x.CreatedAtUtc)
             .IsRequired();
+        
+        builder.HasOne<Center>()
+            .WithMany()
+            .HasForeignKey(x => x.CenterId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Ignore(x => x.DomainEvents);
     }

@@ -9,6 +9,7 @@ using Infrastructure.Events;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
+using Infrastructure.Workflows.Elsa;
 
 namespace Infrastructure;
 
@@ -46,6 +47,8 @@ public static class DependencyInjection
         services.AddScoped<ITokenService, JwtTokenService>();
         
         services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+        
+        services.AddShamlElsa();
 
         return services;
     }

@@ -1,6 +1,5 @@
 using Domain.Cases.Events;
 using Domain.Common;
-using Shaml.Domain.Cases.Events;
 
 namespace Domain.Cases;
 
