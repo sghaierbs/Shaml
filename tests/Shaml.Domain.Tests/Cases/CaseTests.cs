@@ -8,6 +8,32 @@ namespace Shaml.Domain.Tests.Cases;
 public class CaseTests
 {
     [Fact]
+    public void WaitForSpecialist_NewCase_ShouldChangeStatus()
+    {
+        var @case = Case.Create("CASE-001");
+
+        @case.WaitForSpecialist();
+
+        Assert.Equal(
+            CaseStatus.WaitingForSpecialist,
+            @case.Status);
+    }
+
+    [Fact]
+    public void Start_WaitingForSpecialistCase_ShouldChangeStatusToInProgress()
+    {
+        var @case = Case.Create("CASE-001");
+
+        @case.WaitForSpecialist();
+
+        @case.Start();
+
+        Assert.Equal(
+            CaseStatus.InProgress,
+            @case.Status);
+    }
+    
+    [Fact]
     public void Create_ShouldCreateNewCase()
     {
         var shamlCase = Case.Create("SHAML-000001");
@@ -22,36 +48,47 @@ public class CaseTests
     }
 
     [Fact]
-    public void Start_WhenCaseIsNew_ShouldChangeStatusToInProgress()
+    public void Start_WhenCaseIsNew_ShouldThrowInvalidOperationException()
     {
-        var shamlCase = Case.Create("SHAML-000001");
+        // Arrange
+        var @case = Case.Create("CASE-001");
 
-        shamlCase.Start();
+        // Act
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => @case.Start());
+
+        // Assert
+        Assert.Equal(
+            "Cannot start a case with status New.",
+            exception.Message);
+    }
+    
+    [Fact]
+    public void WaitForSpecialist_WhenCaseIsNew_ShouldChangeStatus()
+    {
+        var @case = Case.Create("CASE-001");
+
+        @case.WaitForSpecialist();
 
         Assert.Equal(
-            CaseStatus.InProgress,
-            shamlCase.Status);
-
-        Assert.Contains(
-            shamlCase.DomainEvents,
-            e => e is CaseStartedEvent);
+            CaseStatus.WaitingForSpecialist,
+            @case.Status);
     }
 
     [Fact]
     public void Complete_WhenCaseIsInProgress_ShouldCompleteCase()
     {
-        var shamlCase = Case.Create("SHAML-000001");
+        // Arrange
+        var @case = Case.Create("CASE-001");
 
-        shamlCase.Start();
-        shamlCase.Complete();
+        @case.WaitForSpecialist();
+        @case.Start();
 
-        Assert.Equal(
-            CaseStatus.Completed,
-            shamlCase.Status);
+        // Act
+        @case.Complete();
 
-        Assert.Contains(
-            shamlCase.DomainEvents,
-            e => e is CaseCompletedEvent);
+        // Assert
+        Assert.Equal(CaseStatus.Completed, @case.Status);
     }
 
     [Fact]

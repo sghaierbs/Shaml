@@ -32,4 +32,52 @@ public sealed class AssignmentRepository : IAssignmentRepository
             assignment,
             cancellationToken);
     }
+    
+    public async Task<IReadOnlyCollection<Assignment>> GetOpenRoleQueueAsync(
+        Guid roleId,
+        Guid centerId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Assignments
+            .AsNoTracking()
+            .Where(x =>
+                x.TargetType == AssignmentTargetType.RoleQueue &&
+                x.TargetRoleId == roleId &&
+                x.TargetCenterId == centerId &&
+                x.Status == AssignmentStatus.Open)
+            .OrderBy(x => x.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+    }
+    
+    public async Task<IReadOnlyCollection<Assignment>> GetWorkForUserRoleAsync(
+        Guid userRoleId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Assignments
+            .AsNoTracking()
+            .Where(x =>
+                x.Status != AssignmentStatus.Completed &&
+                x.Status != AssignmentStatus.Cancelled &&
+                (
+                    x.TargetUserRoleId == userRoleId ||
+                    x.ClaimedByUserRoleId == userRoleId
+                ))
+            .OrderBy(x => x.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+    }
+    
+    public async Task<IReadOnlyCollection<Assignment>> GetWorkForUserAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Assignments
+            .AsNoTracking()
+            .Where(x =>
+                x.TargetType == AssignmentTargetType.User &&
+                x.TargetUserId == userId &&
+                x.Status != AssignmentStatus.Completed &&
+                x.Status != AssignmentStatus.Cancelled)
+            .OrderBy(x => x.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+    }
 }

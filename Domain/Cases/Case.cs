@@ -49,9 +49,11 @@ public sealed class Case : AggregateRoot
     
     public void Start()
     {
-        if (Status != CaseStatus.New)
+        if (Status != CaseStatus.WaitingForSpecialist)
+        {
             throw new InvalidOperationException(
                 $"Cannot start a case with status {Status}.");
+        }
 
         Status = CaseStatus.InProgress;
 
@@ -73,5 +75,16 @@ public sealed class Case : AggregateRoot
             new CaseCompletedEvent(
                 Id,
                 DateTime.UtcNow));
+    }
+    
+    public void WaitForSpecialist()
+    {
+        if (Status != CaseStatus.New)
+        {
+            throw new InvalidOperationException(
+                $"Cannot send a case to the specialist queue with status {Status}.");
+        }
+
+        Status = CaseStatus.WaitingForSpecialist;
     }
 }

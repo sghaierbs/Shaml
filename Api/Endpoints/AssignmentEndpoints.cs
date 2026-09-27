@@ -1,6 +1,8 @@
 using Application.Assignments;
 using Application.Assignments.ClaimAssignment;
 using Application.Assignments.CreateAssignment;
+using Application.Assignments.GetMyWork;
+using Application.Assignments.GetRoleQueue;
 using Domain.Assignments;
 
 namespace Api.Endpoints;
@@ -44,6 +46,32 @@ public static class AssignmentEndpoints
                     var result = await handler.HandleAsync(
                         new ClaimAssignmentCommand(assignmentId),
                         cancellationToken);
+
+                    return Results.Ok(result);
+                })
+            .RequireAuthorization();
+        
+        app.MapGet(
+                "/api/assignments/queue",
+                async (
+                    GetRoleQueueHandler handler,
+                    CancellationToken cancellationToken) =>
+                {
+                    var result =
+                        await handler.HandleAsync(cancellationToken);
+
+                    return Results.Ok(result);
+                })
+            .RequireAuthorization();
+        
+        app.MapGet(
+                "/api/assignments/mine",
+                async (
+                    GetMyWorkHandler handler,
+                    CancellationToken cancellationToken) =>
+                {
+                    var result =
+                        await handler.HandleAsync(cancellationToken);
 
                     return Results.Ok(result);
                 })
