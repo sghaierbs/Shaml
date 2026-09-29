@@ -139,6 +139,13 @@ button {
     background: #087f5b;
 }
 
+.header-user-context {
+    margin-inline-start: auto;
+
+    display: flex;
+    align-items: center;
+}
+
 .user-context {
     margin-inline-start: auto;
 

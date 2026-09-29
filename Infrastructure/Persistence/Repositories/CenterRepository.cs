@@ -41,4 +41,53 @@ public class CenterRepository : ICenterRepository
                 center => center.Code == code,
                 cancellationToken);
     }
+    
+    public async Task<(IReadOnlyList<Center> Items, int TotalCount)> GetPagedAsync(
+        int page,
+        int pageSize,
+        string? search,
+        string? region,
+        string? city,
+        CenterStatus? status,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _dbContext.Centers
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var normalizedSearch = search.Trim();
+
+            query = query.Where(c =>
+                EF.Functions.ILike(c.Code, $"%{normalizedSearch}%") ||
+                EF.Functions.ILike(c.Name, $"%{normalizedSearch}%") ||
+                EF.Functions.ILike(c.City, $"%{normalizedSearch}%"));
+        }
+
+        if (!string.IsNullOrWhiteSpace(region))
+        {
+            query = query.Where(c => c.Region == region);
+        }
+
+        if (!string.IsNullOrWhiteSpace(city))
+        {
+            query = query.Where(c => c.City == city);
+        }
+
+        if (status.HasValue)
+        {
+            query = query.Where(c => c.Status == status.Value);
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
+            .OrderByDescending(c => c.CreatedAtUtc)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
+    }
 }

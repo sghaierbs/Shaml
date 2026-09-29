@@ -77,6 +77,16 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
                 ScopeType = ScopeType.Self,
                 IsSystem = true,
                 IsActive = true
+            },
+            new
+            {
+                Id = SystemRoleIds.OrganizationAdmin,
+                Code = "organization-admin",
+                Name = "Organization Administrator",
+                Portal = PortalType.Internal,
+                ScopeType = ScopeType.Organization,
+                IsSystem = true,
+                IsActive = true
             });
     }
 }

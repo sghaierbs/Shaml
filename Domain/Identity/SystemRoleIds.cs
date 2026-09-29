@@ -13,4 +13,7 @@ public static class SystemRoleIds
     
     public static readonly Guid PublicUser =
         Guid.Parse("20000000-0000-0000-0000-000000000004");
+    
+    public static readonly Guid OrganizationAdmin =
+        Guid.Parse("20000000-0000-0000-0000-000000000005");
 }

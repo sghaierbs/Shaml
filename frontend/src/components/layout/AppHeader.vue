@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import RoleSwitcher from '../RoleSwitcher.vue'
 </script>
 
 <template>
@@ -28,19 +29,8 @@ import { RouterLink } from 'vue-router'
         </a>
       </nav>
 
-      <div class="user-context">
-        <div class="user-avatar">
-          SA
-        </div>
-
-        <div class="user-details">
-          <strong>Shaml Administrator</strong>
-          <span>Organization</span>
-        </div>
-
-        <button class="context-button" type="button">
-          ▾
-        </button>
+      <div class="header-user-context">
+        <RoleSwitcher />
       </div>
     </div>
   </header>

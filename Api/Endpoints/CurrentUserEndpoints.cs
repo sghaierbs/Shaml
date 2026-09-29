@@ -30,69 +30,39 @@ public static class CurrentUserEndpoints
                 })
             .RequirePermission(PermissionCodes.CaseView);
         
-        if (app.ServiceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-        {
-            app.MapPost(
-                "/api/dev/token",
-                async (
-                    IssueUserTokenRequest request,
-                    IssueUserTokenHandler handler,
-                    CancellationToken cancellationToken) =>
-                {
-                    var result = await handler.HandleAsync(
-                        new IssueUserTokenCommand(request.ExternalId),
-                        cancellationToken);
+        
+        app.MapPost(
+            "/api/dev/token",
+            async (
+                IssueUserTokenRequest request,
+                IssueUserTokenHandler handler,
+                CancellationToken cancellationToken) =>
+            {
+                var result = await handler.HandleAsync(
+                    new IssueUserTokenCommand(request.ExternalId),
+                    cancellationToken);
 
-                    return Results.Ok(result);
-                });
-        }
+                return Results.Ok(result);
+            });
+    
         
         // Temporary development endpoint.
         app.MapGet(
-            "/api/dev/current-user",
-            async (
-                HttpRequest request,
-                ICurrentUserContextResolver resolver,
-                CancellationToken cancellationToken) =>
-            {
-                var externalId =
-                    request.Headers["X-External-Id"].FirstOrDefault();
-
-                if (string.IsNullOrWhiteSpace(externalId))
+                "/api/me",
+                (ICurrentUserContext currentUser) =>
                 {
-                    return Results.BadRequest(new
+                    return Results.Ok(new
                     {
-                        error = "X-External-Id header is required."
+                        currentUser.UserId,
+                        currentUser.ExternalId,
+                        currentUser.ActiveUserRoleId,
+                        currentUser.RoleId,
+                        currentUser.Portal,
+                        currentUser.ScopeType,
+                        currentUser.CenterId
                     });
-                }
-
-                Guid? requestedUserRoleId = null;
-
-                var userRoleHeader =
-                    request.Headers["X-User-Role-Id"].FirstOrDefault();
-
-                if (!string.IsNullOrWhiteSpace(userRoleHeader))
-                {
-                    if (!Guid.TryParse(
-                            userRoleHeader,
-                            out var parsedUserRoleId))
-                    {
-                        return Results.BadRequest(new
-                        {
-                            error = "X-User-Role-Id must be a valid GUID."
-                        });
-                    }
-
-                    requestedUserRoleId = parsedUserRoleId;
-                }
-
-                var context = await resolver.ResolveAsync(
-                    externalId,
-                    requestedUserRoleId,
-                    cancellationToken);
-
-                return Results.Ok(context);
-            });
+                })
+            .RequireAuthorization();
         
         app.MapPost(
                 "/api/me/switch-role",

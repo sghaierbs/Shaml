@@ -15,9 +15,26 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddShamlAuthentication(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("VueDevelopment", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("VueDevelopment");
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -48,6 +48,30 @@ public class RolePermissionConfiguration
                 Id = Guid.Parse("30000000-0000-0000-0000-000000000002"),
                 RoleId = SystemRoleIds.PublicUser,
                 PermissionId = SystemPermissionIds.SessionView
+            },
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000003"),
+                RoleId = SystemRoleIds.OrganizationAdmin,
+                PermissionId = SystemPermissionIds.CenterView
+            },
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000004"),
+                RoleId = SystemRoleIds.OrganizationAdmin,
+                PermissionId = SystemPermissionIds.CenterManage
+            },
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000005"),
+                RoleId = SystemRoleIds.OrganizationAdmin,
+                PermissionId = SystemPermissionIds.UserView
+            },
+            new
+            {
+                Id = Guid.Parse("30000000-0000-0000-0000-000000000006"),
+                RoleId = SystemRoleIds.OrganizationAdmin,
+                PermissionId = SystemPermissionIds.UserAssignRole
             });
     }
 }

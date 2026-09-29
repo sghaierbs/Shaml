@@ -15,4 +15,13 @@ public interface ICenterRepository
     Task<bool> ExistsByCodeAsync(
         string code,
         CancellationToken cancellationToken = default);
+    
+    Task<(IReadOnlyList<Center> Items, int TotalCount)> GetPagedAsync(
+        int page,
+        int pageSize,
+        string? search,
+        string? region,
+        string? city,
+        CenterStatus? status,
+        CancellationToken cancellationToken = default);
 }

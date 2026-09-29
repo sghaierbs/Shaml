@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.Cases.CreateCase;
 using Application.Cases.EventHandlers;
 using Application.Centers.CreateCenter;
+using Application.Centers.GetCenters;
 using Application.Common.Events;
 using Application.Common.Outbox;
 using Application.Identity.AssignRole;
@@ -50,6 +51,8 @@ public static class DependencyInjection
         services.AddScoped<GetMyWorkHandler>();
         
         services.AddScoped<OutboxProcessor>();
+        
+        services.AddScoped<GetCentersHandler>();
         
         return services;
     }
