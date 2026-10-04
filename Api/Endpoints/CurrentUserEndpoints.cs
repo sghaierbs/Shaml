@@ -1,3 +1,4 @@
+using Api.Authentication;
 using Api.Authorization;
 using Application.Common.Interfaces;
 using Application.Identity.CurrentUser;
@@ -62,7 +63,7 @@ public static class CurrentUserEndpoints
                         currentUser.CenterId
                     });
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
         
         app.MapPost(
                 "/api/me/switch-role",
@@ -77,7 +78,7 @@ public static class CurrentUserEndpoints
 
                     return Results.Ok(result);
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
 
         // Temporary ExternalId header until IAM authentication is integrated.
         app.MapGet(
@@ -87,7 +88,7 @@ public static class CurrentUserEndpoints
                     var roles = await handler.HandleAsync(new GetUserRolesQuery(), cancellationToken);
                     return Results.Ok(roles);
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
 
         return app;
     }

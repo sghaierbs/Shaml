@@ -1,8 +1,8 @@
 using Api.Authentication;
 using Api.Endpoints;
-using Api.Middleware;
 using Application;
 using Infrastructure;
+using Elsa.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +12,15 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(GetSchemaId);
+
+    options.ResolveConflictingActions(
+        apiDescriptions => apiDescriptions.First());
+});
+
 builder.Services.AddShamlAuthentication(builder.Configuration);
 
 builder.Services.AddCors(options =>
@@ -26,10 +34,31 @@ builder.Services.AddCors(options =>
     });
 });
 
+static string GetSchemaId(Type type)
+{
+    if (!type.IsGenericType)
+    {
+        return type.FullName?
+                   .Replace("+", ".")
+               ?? type.Name;
+    }
+
+    var genericTypeName =
+        type.GetGenericTypeDefinition()
+            .FullName!
+            .Split('`')[0]
+            .Replace("+", ".");
+
+    var genericArguments =
+        string.Join(
+            "_",
+            type.GetGenericArguments()
+                .Select(GetSchemaId));
+
+    return $"{genericTypeName}_{genericArguments}";
+}
 
 var app = builder.Build();
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -39,17 +68,37 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+// -------------------------------
+// Shaml endpoints
+// -------------------------------
+
 app.MapUserEndpoints();
-
 app.MapCenterEndpoints();
-
 app.MapCurrentUserEndpoints();
 app.MapAssignmentEndpoints();
+
+// -------------------------------
+// Elsa
+// -------------------------------
+
+app.MapWorkflowsApi();
+
+app.UseWorkflows();
+
+// -------------------------------
+// Swagger
+// -------------------------------
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "Shaml API v1");
+    });
 }
 
 app.MapControllers();

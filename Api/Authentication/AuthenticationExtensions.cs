@@ -22,36 +22,65 @@ public static class AuthenticationExtensions
         var signingKey = configuration["Jwt:SigningKey"]
                          ?? throw new InvalidOperationException(
                              "JWT signing key is not configured.");
-        
+
         services.AddHttpContextAccessor();
 
         services.AddScoped<ICurrentUserContext, JwtCurrentUserContext>();
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.MapInboundClaims = false;
-                options.TokenValidationParameters =
-                    new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = issuer,
+        // Register Shaml JWT authentication as a named scheme.
+        // Do NOT make it the global default because Elsa uses "Bearer".
+        services
+            .AddAuthentication()
+            .AddJwtBearer(
+                AuthenticationSchemes.Shaml,
+                options =>
+                {
+                    options.MapInboundClaims = false;
 
-                        ValidateAudience = true,
-                        ValidAudience = audience,
+                    options.TokenValidationParameters =
+                        new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = issuer,
 
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey =
-                            new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(signingKey)),
+                            ValidateAudience = true,
+                            ValidAudience = audience,
 
-                        ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey =
+                                new SymmetricSecurityKey(
+                                    Encoding.UTF8.GetBytes(signingKey)),
 
-                        ClockSkew = TimeSpan.FromSeconds(30)
-                    };
-            });
+                            ValidateLifetime = true,
 
-        services.AddAuthorization();
+                            ClockSkew = TimeSpan.FromSeconds(30)
+                        };
+                });
+
+        // Shaml business-user authorization.
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(
+                AuthorizationPolicies.ShamlUser,
+                policy =>
+                {
+                    policy.AddAuthenticationSchemes(
+                        AuthenticationSchemes.Shaml);
+
+                    policy.RequireAuthenticatedUser();
+                });
+        });
 
         return services;
     }
+}
+
+public static class AuthenticationSchemes
+{
+    public const string Shaml = "ShamlBearer";
+}
+
+public static class AuthorizationPolicies
+{
+    public const string ShamlUser = "ShamlUser";
 }

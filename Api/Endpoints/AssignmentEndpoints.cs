@@ -1,3 +1,4 @@
+using Api.Authentication;
 using Application.Assignments;
 using Application.Assignments.ClaimAssignment;
 using Application.Assignments.CreateAssignment;
@@ -49,7 +50,7 @@ public static class AssignmentEndpoints
 
                     return Results.Ok(result);
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
         
         app.MapGet(
                 "/api/assignments/queue",
@@ -62,7 +63,7 @@ public static class AssignmentEndpoints
 
                     return Results.Ok(result);
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
         
         app.MapGet(
                 "/api/assignments/mine",
@@ -75,7 +76,7 @@ public static class AssignmentEndpoints
 
                     return Results.Ok(result);
                 })
-            .RequireAuthorization();
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
 
         return app;
     }

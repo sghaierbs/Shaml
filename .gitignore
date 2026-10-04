@@ -1,4 +1,7 @@
+# ============================================================
 # .NET
+# ============================================================
+
 bin/
 obj/
 artifacts/
@@ -6,39 +9,110 @@ artifacts/
 [Dd]ebug/
 [Rr]elease/
 
+
+# ============================================================
 # JetBrains Rider
+# ============================================================
+
 .idea/
 *.sln.iml
 
+
+# ============================================================
 # Visual Studio / VS Code
+# ============================================================
+
 .vs/
 .vscode/
 *.user
 *.suo
 
-# Tests
+
+# ============================================================
+# Tests / Coverage
+# ============================================================
+
 TestResults/
 coverage/
 *.coverage
 *.coveragexml
 
+
+# ============================================================
 # NuGet
+# ============================================================
+
 *.nupkg
 *.snupkg
 packages/
 
+
+# ============================================================
+# Frontend - Node.js / Vue.js / Vite
+# ============================================================
+
+# Dependencies
+node_modules/
+
+# Production build output
+dist/
+dist-ssr/
+
+# Vite cache
+.vite/
+
+# Vue / TypeScript build cache
+*.tsbuildinfo
+
+# npm
+npm-debug.log*
+.npm/
+
+# Yarn
+yarn-debug.log*
+yarn-error.log*
+.yarn/
+
+# pnpm
+pnpm-debug.log*
+.pnpm-store/
+
+# ESLint cache
+.eslintcache
+
+# Stylelint cache
+.stylelintcache
+
+# Vitest / frontend test coverage
+.nyc_output/
+
+
+# ============================================================
 # Logs
+# ============================================================
+
 *.log
 logs/
+
+
+# ============================================================
+# Environment / Secrets
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+secrets.json
+
+
+# ============================================================
+# OS Generated Files
+# ============================================================
 
 # macOS
 .DS_Store
 
 # Windows
 Thumbs.db
-
-# Environment / secrets
-.env
-.env.*
-!.env.example
-secrets.json
+Desktop.ini

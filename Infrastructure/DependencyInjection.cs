@@ -10,6 +10,7 @@ using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Workflows.Elsa;
+using Infrastructure.Workflows.Elsa.Runtime;
 
 namespace Infrastructure;
 
@@ -48,7 +49,11 @@ public static class DependencyInjection
         
         services.AddScoped<IAssignmentRepository, AssignmentRepository>();
         
-        services.AddShamlElsa(configuration);
+        //services.AddShamlElsa(configuration);
+        services.AddElsaWorkflowEngine(configuration);
+        
+        // Shaml workflow abstraction -> Elsa implementation.
+        services.AddScoped<ICaseWorkflowService, ElsaCaseWorkflowService>();
         
         services.AddScoped<IOutboxRepository, OutboxRepository>();
 
