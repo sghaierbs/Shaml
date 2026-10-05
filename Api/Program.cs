@@ -2,15 +2,12 @@ using Api.Authentication;
 using Api.Endpoints;
 using Application;
 using Infrastructure;
-using Elsa.Extensions;
-using Infrastructure.Workflows.Elsa;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddElsaWorkflowRuntime(
-    builder.Configuration);
+
 
 builder.Services.AddControllers();
 

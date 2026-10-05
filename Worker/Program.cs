@@ -2,7 +2,6 @@ using Application.Common.Outbox;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Infrastructure;
-using Infrastructure.Workflows.Elsa;
 using Shaml.Worker.Jobs;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -13,9 +12,6 @@ var connectionString =
         "Connection string 'ShamlDatabase' was not found.");
 
 builder.Services.AddInfrastructure(
-    builder.Configuration);
-
-builder.Services.AddElsaWorkflowRuntime(
     builder.Configuration);
 
 builder.Services.AddScoped<OutboxProcessor>();

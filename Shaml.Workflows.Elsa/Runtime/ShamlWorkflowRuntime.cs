@@ -2,7 +2,7 @@ using Elsa.Workflows.Models;
 using Elsa.Workflows.Runtime;
 using Elsa.Workflows.Runtime.Messages;
 
-namespace Infrastructure.Workflows.Elsa.Runtime;
+namespace Shaml.Workflows.Elsa.Runtime;
 
 public sealed class ShamlWorkflowRuntime
 {

@@ -1,7 +1,7 @@
 using Elsa.Workflows;
 using Elsa.Workflows.Activities;
 
-namespace Infrastructure.Workflows.Elsa.Workflows;
+namespace Shaml.Workflows.Elsa.Workflows;
 
 public sealed class ShamlPocWorkflow : WorkflowBase
 {

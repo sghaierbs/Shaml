@@ -6,12 +6,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Elsa" Version="3.8.4" />
-      <PackageReference Include="Elsa.Http" Version="3.8.4" />
-      <PackageReference Include="Elsa.Identity" Version="3.8.4" />
-      <PackageReference Include="Elsa.Persistence.EFCore.PostgreSql" Version="3.8.4" />
-      <PackageReference Include="Elsa.Scheduling" Version="3.8.4" />
-      <PackageReference Include="Elsa.Workflows.Api" Version="3.8.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

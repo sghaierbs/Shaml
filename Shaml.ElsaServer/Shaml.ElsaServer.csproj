@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shaml.Workflows.Elsa\Shaml.Workflows.Elsa.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elsa.Http" Version="3.8.4" />
+    <PackageReference Include="Elsa.Identity" Version="3.8.4" />
+    <PackageReference Include="Elsa.Persistence.EFCore.PostgreSql" Version="3.8.4" />
+    <PackageReference Include="Elsa.Scheduling" Version="3.8.4" />
+    <PackageReference Include="Elsa.Workflows.Api" Version="3.8.4" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
