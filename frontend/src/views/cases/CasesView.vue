@@ -98,6 +98,15 @@ function statusName(status: number): string {
     case 2:
       return 'Assigned'
 
+    case 3:
+      return 'Completed'
+
+    case 4:
+      return 'Cancelled'
+
+    case 5:
+      return 'In Progress'
+
     default:
       return `Status ${status}`
   }
@@ -229,9 +238,12 @@ onMounted(loadAssignments)
                 <span
                     class="assignment-status"
                     :class="{
-                    available: assignment.status === 1,
-                    assigned: assignment.status === 2,
-                  }"
+                      available: assignment.status === 1,
+                      assigned: assignment.status === 2,
+                      completed: assignment.status === 3,
+                      cancelled: assignment.status === 4,
+                      inProgress: assignment.status === 5,
+                    }"
                 >
                   {{ statusName(assignment.status) }}
                 </span>
@@ -381,6 +393,21 @@ onMounted(loadAssignments)
 .assignment-status.assigned {
   background: #e8f5ef;
   color: #087f5b;
+}
+
+.assignment-status.inProgress {
+  background: #e8f1ff;
+  color: #175cd3;
+}
+
+.assignment-status.completed {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.assignment-status.cancelled {
+  background: #fef3f2;
+  color: #b42318;
 }
 
 .case-id {

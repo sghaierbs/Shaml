@@ -24,6 +24,21 @@ public sealed class AssignmentRepository : IAssignmentRepository
                 cancellationToken);
     }
 
+    public Task<Assignment?> GetByCaseAndTaskCodeAsync(
+        Guid caseId,
+        string taskCode,
+        CancellationToken cancellationToken = default)
+    {
+        return _dbContext.Assignments
+            .SingleOrDefaultAsync(
+                x =>
+                    x.CaseId == caseId &&
+                    x.TaskCode == taskCode &&
+                    x.Status != AssignmentStatus.Completed &&
+                    x.Status != AssignmentStatus.Cancelled,
+                cancellationToken);
+    }
+
     public async Task AddAsync(
         Assignment assignment,
         CancellationToken cancellationToken = default)
@@ -32,7 +47,7 @@ public sealed class AssignmentRepository : IAssignmentRepository
             assignment,
             cancellationToken);
     }
-    
+
     public async Task<IReadOnlyCollection<Assignment>> GetOpenRoleQueueAsync(
         Guid roleId,
         Guid centerId,
@@ -48,7 +63,7 @@ public sealed class AssignmentRepository : IAssignmentRepository
             .OrderBy(x => x.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
-    
+
     public async Task<IReadOnlyCollection<Assignment>> GetWorkForUserRoleAsync(
         Guid userRoleId,
         CancellationToken cancellationToken = default)
@@ -65,7 +80,7 @@ public sealed class AssignmentRepository : IAssignmentRepository
             .OrderBy(x => x.CreatedAtUtc)
             .ToListAsync(cancellationToken);
     }
-    
+
     public async Task<IReadOnlyCollection<Assignment>> GetWorkForUserAsync(
         Guid userId,
         CancellationToken cancellationToken = default)

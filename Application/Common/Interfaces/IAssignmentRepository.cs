@@ -24,4 +24,9 @@ public interface IAssignmentRepository
     Task<IReadOnlyCollection<Assignment>> GetWorkForUserAsync(
         Guid userId,
         CancellationToken cancellationToken = default);
+    
+    Task<Assignment?> GetByCaseAndTaskCodeAsync(
+        Guid caseId,
+        string taskCode,
+        CancellationToken cancellationToken = default);
 }

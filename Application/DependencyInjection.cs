@@ -2,6 +2,7 @@ using Application.Assignments.ClaimAssignment;
 using Application.Assignments.CreateAssignment;
 using Application.Assignments.GetMyWork;
 using Application.Assignments.GetRoleQueue;
+using Application.Assignments.StartAssignment;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Cases.CreateCase;
 using Application.Cases.EventHandlers;
@@ -49,6 +50,8 @@ public static class DependencyInjection
         services.AddScoped<GetRoleQueueHandler>();
         
         services.AddScoped<GetMyWorkHandler>();
+        
+        services.AddScoped<StartAssignmentHandler>();
         
         services.AddScoped<OutboxProcessor>();
         

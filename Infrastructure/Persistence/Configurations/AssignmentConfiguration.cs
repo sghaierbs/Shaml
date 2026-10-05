@@ -42,6 +42,8 @@ public sealed class AssignmentConfiguration
 
         builder.Property(x => x.ClaimedAtUtc);
 
+        builder.Property(x => x.StartedAtUtc);
+
         builder.Property(x => x.CompletedAtUtc);
 
         builder.HasIndex(x => x.CaseId);
@@ -65,7 +67,7 @@ public sealed class AssignmentConfiguration
             x.TargetUserId,
             x.Status
         });
-        
+
         builder.Property(x => x.ConcurrencyToken)
             .IsConcurrencyToken()
             .IsRequired();

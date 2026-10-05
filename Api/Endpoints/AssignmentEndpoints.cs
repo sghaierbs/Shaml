@@ -4,6 +4,7 @@ using Application.Assignments.ClaimAssignment;
 using Application.Assignments.CreateAssignment;
 using Application.Assignments.GetMyWork;
 using Application.Assignments.GetRoleQueue;
+using Application.Assignments.StartAssignment;
 using Domain.Assignments;
 
 namespace Api.Endpoints;
@@ -36,7 +37,11 @@ public static class AssignmentEndpoints
                     return Results.Ok(result);
                 });
         }
-        
+
+        // --------------------------------------------------
+        // Claim assignment
+        // --------------------------------------------------
+
         app.MapPost(
                 "/api/assignments/{assignmentId:guid}/claim",
                 async (
@@ -51,7 +56,30 @@ public static class AssignmentEndpoints
                     return Results.Ok(result);
                 })
             .RequireAuthorization(AuthorizationPolicies.ShamlUser);
-        
+
+        // --------------------------------------------------
+        // Start assignment
+        // --------------------------------------------------
+
+        app.MapPost(
+                "/api/assignments/{assignmentId:guid}/start",
+                async (
+                    Guid assignmentId,
+                    StartAssignmentHandler handler,
+                    CancellationToken cancellationToken) =>
+                {
+                    var result = await handler.HandleAsync(
+                        new StartAssignmentCommand(assignmentId),
+                        cancellationToken);
+
+                    return Results.Ok(result);
+                })
+            .RequireAuthorization(AuthorizationPolicies.ShamlUser);
+
+        // --------------------------------------------------
+        // Role queue
+        // --------------------------------------------------
+
         app.MapGet(
                 "/api/assignments/queue",
                 async (
@@ -64,7 +92,11 @@ public static class AssignmentEndpoints
                     return Results.Ok(result);
                 })
             .RequireAuthorization(AuthorizationPolicies.ShamlUser);
-        
+
+        // --------------------------------------------------
+        // My work
+        // --------------------------------------------------
+
         app.MapGet(
                 "/api/assignments/mine",
                 async (

@@ -6,6 +6,7 @@ public sealed class Assignment : AggregateRoot
 {
     
     public Guid ConcurrencyToken { get; private set; } = Guid.NewGuid();
+    public DateTime? StartedAtUtc { get; private set; }
     
     /**
      * Currently the assignment does not know anything about Elsa
@@ -40,6 +41,18 @@ public sealed class Assignment : AggregateRoot
         TargetType = targetType;
         Status = AssignmentStatus.Open;
         CreatedAtUtc = createdAtUtc;
+    }
+    
+    public void Start(DateTime startedAtUtc)
+    {
+        if (Status != AssignmentStatus.Claimed)
+        {
+            throw new InvalidOperationException(
+                "Only a claimed assignment can be started.");
+        }
+
+        Status = AssignmentStatus.InProgress;
+        StartedAtUtc = startedAtUtc;
     }
     
     public void RefreshConcurrencyToken()
@@ -153,12 +166,34 @@ public sealed class Assignment : AggregateRoot
     
     public void Complete(DateTime completedAtUtc)
     {
-        // Assignment for public user does not need claiming that why it should be Open Claimed.
-        if (Status != AssignmentStatus.Open &&
-            Status != AssignmentStatus.Claimed)
+        if (Status == AssignmentStatus.Completed)
         {
             throw new InvalidOperationException(
-                "Only an open or claimed assignment can be completed.");
+                "The assignment is already completed.");
+        }
+
+        if (Status == AssignmentStatus.Cancelled)
+        {
+            throw new InvalidOperationException(
+                "A cancelled assignment cannot be completed.");
+        }
+
+        // Role queue assignments must first be claimed and started.
+        if (TargetType == AssignmentTargetType.RoleQueue &&
+            Status != AssignmentStatus.InProgress)
+        {
+            throw new InvalidOperationException(
+                "A role queue assignment must be in progress before it can be completed.");
+        }
+
+        // Direct assignments such as public-user assignments
+        // can be completed without being claimed.
+        if (TargetType != AssignmentTargetType.RoleQueue &&
+            Status != AssignmentStatus.Open &&
+            Status != AssignmentStatus.InProgress)
+        {
+            throw new InvalidOperationException(
+                "The assignment cannot be completed in its current state.");
         }
 
         Status = AssignmentStatus.Completed;
