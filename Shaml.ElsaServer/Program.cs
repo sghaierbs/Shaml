@@ -50,7 +50,7 @@ builder.Services.AddElsa(elsa =>
             "admin",
             "admin123",
             "admin",
-            []
+            ["*"]
         );
         identity.TokenOptions = options =>
         {
@@ -59,7 +59,13 @@ builder.Services.AddElsa(elsa =>
         };
     });
     
+    // Elsa authentication
     elsa.UseDefaultAuthentication();
+
+    // Elsa HTTP API
+    elsa.UseWorkflowsApi();
+
+    // Shaml workflow definitions
     elsa.AddWorkflow<CaseWorkflow>();
     elsa.AddWorkflow<ShamlPocWorkflow>();
 });
@@ -67,6 +73,29 @@ builder.Services.AddElsa(elsa =>
 builder.Services.AddShamlWorkflowServices();
 
 var app = builder.Build();
+
+app.MapWorkflowsApi();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapGet("/debug/endpoints", (
+    IEnumerable<EndpointDataSource> sources) =>
+{
+    return sources
+        .SelectMany(source => source.Endpoints)
+        .OfType<RouteEndpoint>()
+        .Select(endpoint => new
+        {
+            Route = endpoint.RoutePattern.RawText,
+            Methods = endpoint.Metadata
+                .GetMetadata<HttpMethodMetadata>()?
+                .HttpMethods
+        })
+        .ToArray();
+});
 
 app.MapGet("/", () => "Shaml Elsa Server");
 
