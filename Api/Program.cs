@@ -3,11 +3,14 @@ using Api.Endpoints;
 using Application;
 using Infrastructure;
 using Elsa.Extensions;
+using Infrastructure.Workflows.Elsa;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddElsaWorkflowRuntime(
+    builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -81,9 +84,9 @@ app.MapAssignmentEndpoints();
 // Elsa
 // -------------------------------
 
-app.MapWorkflowsApi();
+// app.MapWorkflowsApi();
 
-app.UseWorkflows();
+// app.UseWorkflows();
 
 // -------------------------------
 // Swagger

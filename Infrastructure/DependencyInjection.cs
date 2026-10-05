@@ -50,7 +50,7 @@ public static class DependencyInjection
         services.AddScoped<IAssignmentRepository, AssignmentRepository>();
         
         //services.AddShamlElsa(configuration);
-        services.AddElsaWorkflowEngine(configuration);
+        //services.AddElsaWorkflowEngine(configuration);
         
         // Shaml workflow abstraction -> Elsa implementation.
         services.AddScoped<ICaseWorkflowService, ElsaCaseWorkflowService>();

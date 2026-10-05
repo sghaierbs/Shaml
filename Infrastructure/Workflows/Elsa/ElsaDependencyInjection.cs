@@ -76,4 +76,30 @@ public static class ElsaDependencyInjection
 
         return services;
     }
+    
+    
+    public static IServiceCollection AddElsaWorkflowRuntime(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var connectionString =
+            configuration.GetConnectionString("ShamlDatabase")
+            ?? throw new InvalidOperationException(
+                "Connection string 'ShamlDatabase' was not found.");
+
+        services.AddElsa(elsa =>
+        {
+            // Workflow definitions.
+            elsa.UseWorkflowManagement(management =>
+                management.UseEntityFrameworkCore(ef =>
+                    ef.UsePostgreSql(connectionString)));
+
+            // Workflow instances / runtime.
+            elsa.UseWorkflowRuntime(runtime =>
+                runtime.UseEntityFrameworkCore(ef =>
+                    ef.UsePostgreSql(connectionString)));
+        });
+
+        return services;
+    }
 }
