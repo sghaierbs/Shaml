@@ -6,6 +6,7 @@ namespace Application.Identity.CurrentUser;
 public sealed record CurrentUserContext(
     Guid UserId,
     string ExternalId,
+    bool HasElsaAccess,
     Guid ActiveUserRoleId,
     Guid RoleId,
     PortalType Portal,

@@ -6,6 +6,8 @@ public class User : AggregateRoot
 {
     // Identifier received from the external IAM system
     public string ExternalId { get; private set; } = null!;
+    
+    public bool HasElsaAccess { get; private set; }
 
     public string FullName { get; private set; } = null!;
     public string? Email { get; private set; }
@@ -62,5 +64,15 @@ public class User : AggregateRoot
     public void Deactivate()
     {
         Status = UserStatus.Inactive;
+    }
+    
+    public void GrantElsaAccess()
+    {
+        HasElsaAccess = true;
+    }
+
+    public void RevokeElsaAccess()
+    {
+        HasElsaAccess = false;
     }
 }

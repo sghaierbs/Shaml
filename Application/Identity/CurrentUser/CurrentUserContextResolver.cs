@@ -68,6 +68,7 @@ public sealed class CurrentUserContextResolver : ICurrentUserContextResolver
         return new CurrentUserContext(
             UserId: user.Id,
             ExternalId: user.ExternalId,
+            HasElsaAccess: user.HasElsaAccess,
             ActiveUserRoleId: userRole.Id,
             RoleId: role.Id,
             Portal: role.Portal,

@@ -53,7 +53,7 @@ public static class DependencyInjection
         
         services.AddScoped<StartAssignmentHandler>();
         
-        services.AddScoped<OutboxProcessor>();
+        //services.AddScoped<OutboxProcessor>();
         
         services.AddScoped<GetCentersHandler>();
         

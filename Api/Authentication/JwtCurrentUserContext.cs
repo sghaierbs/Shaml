@@ -10,6 +10,8 @@ public sealed class JwtCurrentUserContext : ICurrentUserContext
     public Guid UserId { get; }
 
     public string ExternalId { get; }
+    
+    public bool HasElsaAccess { get; }
 
     public Guid ActiveUserRoleId { get; }
 
@@ -40,6 +42,10 @@ public sealed class JwtCurrentUserContext : ICurrentUserContext
         ExternalId = GetRequiredClaim(
             principal,
             "external_id");
+        
+        HasElsaAccess = ParseOptionalBoolClaim(
+            principal,
+            "elsa_access");
 
         ActiveUserRoleId = ParseGuidClaim(
             principal,
@@ -133,5 +139,25 @@ public sealed class JwtCurrentUserContext : ICurrentUserContext
         return (TEnum)Enum.ToObject(
             typeof(TEnum),
             numericValue);
+    }
+    
+    private static bool ParseOptionalBoolClaim(
+        ClaimsPrincipal principal,
+        string claimType)
+    {
+        var value = principal.FindFirstValue(claimType);
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return false;
+        }
+
+        if (!bool.TryParse(value, out var result))
+        {
+            throw new UnauthorizedAccessException(
+                $"Claim '{claimType}' is invalid.");
+        }
+
+        return result;
     }
 }

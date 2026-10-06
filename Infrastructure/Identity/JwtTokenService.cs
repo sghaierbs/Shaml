@@ -71,6 +71,11 @@ public sealed class JwtTokenService : ITokenService
                 "scope",
                 ((int)context.ScopeType).ToString())
         };
+        
+        if (context.HasElsaAccess)
+        {
+            claims.Add(new Claim("elsa_access", "true"));
+        }
 
         if (context.CenterId.HasValue)
         {

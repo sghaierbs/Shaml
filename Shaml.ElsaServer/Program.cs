@@ -1,9 +1,13 @@
+using System.Security.Claims;
+using System.Text;
 using Elsa.Extensions;
 using Elsa.Persistence.EFCore;
 using Elsa.Persistence.EFCore.Extensions;
 using Elsa.Persistence.EFCore.Modules.Identity;
 using Elsa.Persistence.EFCore.Modules.Management;
 using Elsa.Persistence.EFCore.Modules.Runtime;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Shaml.Workflows.Elsa;
 using Shaml.Workflows.Elsa.Workflows;
 
@@ -59,8 +63,6 @@ builder.Services.AddElsa(elsa =>
         };
     });
     
-    // Elsa authentication
-    elsa.UseDefaultAuthentication();
 
     // Elsa HTTP API
     elsa.UseWorkflowsApi();
@@ -69,6 +71,72 @@ builder.Services.AddElsa(elsa =>
     elsa.AddWorkflow<CaseWorkflow>();
     elsa.AddWorkflow<ShamlPocWorkflow>();
 });
+
+
+var shamlIssuer = builder.Configuration["Jwt:Issuer"]
+                  ?? throw new InvalidOperationException("JWT issuer is not configured.");
+
+var shamlAudience = builder.Configuration["Jwt:Audience"]
+                    ?? throw new InvalidOperationException("JWT audience is not configured.");
+
+var shamlSigningKey = builder.Configuration["Jwt:SigningKey"]
+                      ?? throw new InvalidOperationException("JWT signing key is not configured.");
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = "ShamlBearer";
+        options.DefaultChallengeScheme = "ShamlBearer";
+    })
+    .AddJwtBearer(
+        "ShamlBearer",
+        options =>
+        {
+            options.MapInboundClaims = false;
+
+            options.TokenValidationParameters =
+                new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = shamlIssuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = shamlAudience,
+
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(shamlSigningKey)),
+
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromSeconds(30)
+                };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = context =>
+                {
+                    var principal = context.Principal;
+
+                    var hasElsaAccess =
+                        string.Equals(
+                            principal?.FindFirstValue("elsa_access"),
+                            "true",
+                            StringComparison.OrdinalIgnoreCase);
+
+                    if (hasElsaAccess &&
+                        principal?.Identity is ClaimsIdentity identity)
+                    {
+                        identity.AddClaim(
+                            new Claim("permissions", "*"));
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
+        });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddShamlWorkflowServices();
 
@@ -98,5 +166,24 @@ app.MapGet("/debug/endpoints", (
 });
 
 app.MapGet("/", () => "Shaml Elsa Server");
+
+app.MapGet("/debug/shaml-auth", (HttpContext context) =>
+    {
+        return Results.Ok(new
+        {
+            authenticated = context.User.Identity?.IsAuthenticated,
+            authenticationType = context.User.Identity?.AuthenticationType,
+            claims = context.User.Claims.Select(x => new
+            {
+                x.Type,
+                x.Value
+            })
+        });
+    })
+    .RequireAuthorization(policy =>
+    {
+        policy.AddAuthenticationSchemes("ShamlBearer");
+        policy.RequireAuthenticatedUser();
+    });
 
 app.Run();

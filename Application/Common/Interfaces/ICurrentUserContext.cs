@@ -7,6 +7,8 @@ public interface ICurrentUserContext
     Guid UserId { get; }
 
     string ExternalId { get; }
+    
+    bool HasElsaAccess { get; }
 
     Guid ActiveUserRoleId { get; }
 
