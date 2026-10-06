@@ -1,6 +1,26 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import RoleSwitcher from '../RoleSwitcher.vue'
+import {
+  canAccessElsa,
+  getAccessToken
+} from '../../auth/auth'
+
+const ELSA_STUDIO_URL = 'http://localhost:5209'
+
+function openElsaStudio() {
+  const token = getAccessToken()
+
+  if (!token || !canAccessElsa()) {
+    return
+  }
+
+  const url =
+      `${ELSA_STUDIO_URL}/shaml-login` +
+      `?token=${encodeURIComponent(token)}`
+
+  window.location.href = url
+}
 </script>
 
 <template>
@@ -27,6 +47,15 @@ import RoleSwitcher from '../RoleSwitcher.vue'
         <a href="#">
           Reports
         </a>
+
+        <button
+            v-if="canAccessElsa()"
+            type="button"
+            class="elsa-studio-link"
+            @click="openElsaStudio"
+        >
+          Elsa Studio
+        </button>
       </nav>
 
       <div class="header-user-context">

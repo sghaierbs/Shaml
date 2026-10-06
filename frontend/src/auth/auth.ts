@@ -48,3 +48,60 @@ export function isAuthenticated(): boolean {
 
     return expirationTime > Date.now()
 }
+
+interface ShamlJwtPayload {
+    elsa_access?: string | boolean
+}
+
+function getJwtPayload(): ShamlJwtPayload | null {
+    const token = getAccessToken()
+
+    if (!token) {
+        return null
+    }
+
+    try {
+        const parts = token.split('.')
+
+        if (parts.length !== 3) {
+            return null
+        }
+
+        const base64Url = parts[1]
+
+        const base64 = base64Url
+            .replace(/-/g, '+')
+            .replace(/_/g, '/')
+
+        const json = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map(
+                    character =>
+                        '%' +
+                        character
+                            .charCodeAt(0)
+                            .toString(16)
+                            .padStart(2, '0')
+                )
+                .join('')
+        )
+
+        return JSON.parse(json) as ShamlJwtPayload
+    } catch {
+        return null
+    }
+}
+
+export function canAccessElsa(): boolean {
+    const payload = getJwtPayload()
+
+    if (!payload) {
+        return false
+    }
+
+    return (
+        payload.elsa_access === true ||
+        payload.elsa_access === 'true'
+    )
+}

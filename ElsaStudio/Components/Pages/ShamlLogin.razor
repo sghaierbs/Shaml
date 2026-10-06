@@ -1,0 +1,54 @@
+@page "/shaml-login"
+
+@using Microsoft.AspNetCore.Components
+@using Microsoft.JSInterop
+
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<p>Signing in...</p>
+
+@code {
+    [SupplyParameterFromQuery(Name = "token")]
+    public string? Token { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        if (string.IsNullOrWhiteSpace(Token))
+        {
+            Navigation.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        try
+        {
+            await JS.InvokeVoidAsync(
+                "localStorage.setItem",
+                "accessToken",
+                Token);
+
+            var storedToken = await JS.InvokeAsync<string?>(
+                "localStorage.getItem",
+                "accessToken");
+
+            if (string.IsNullOrWhiteSpace(storedToken))
+            {
+                Navigation.NavigateTo("/login", forceLoad: true);
+                return;
+            }
+
+            // Full reload:
+            // 1. removes JWT from the browser URL
+            // 2. creates a new Blazor circuit
+            // 3. Elsa reads accessToken from localStorage
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        catch
+        {
+            Navigation.NavigateTo("/login", forceLoad: true);
+        }
+    }
+}
