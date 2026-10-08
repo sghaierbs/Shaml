@@ -1,0 +1,3 @@
+namespace Application.Assignments.CreateDirectorApprovalAssignment;
+
+public sealed record CreateDirectorApprovalAssignmentCommand(Guid CaseId);

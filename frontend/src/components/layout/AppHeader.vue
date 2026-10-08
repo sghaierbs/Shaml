@@ -19,7 +19,8 @@ function openElsaStudio() {
       `${ELSA_STUDIO_URL}/shaml-login` +
       `?token=${encodeURIComponent(token)}`
 
-  window.location.href = url
+  //window.location.href = url
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 </script>
 
@@ -48,14 +49,13 @@ function openElsaStudio() {
           Reports
         </a>
 
-        <button
+        <a
             v-if="canAccessElsa()"
-            type="button"
-            class="elsa-studio-link"
-            @click="openElsaStudio"
+            href="#"
+            @click.prevent="openElsaStudio"
         >
           Elsa Studio
-        </button>
+        </a>
       </nav>
 
       <div class="header-user-context">

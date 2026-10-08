@@ -1,5 +1,7 @@
 using Application.Assignments.ClaimAssignment;
+using Application.Assignments.CompleteAssignment;
 using Application.Assignments.CreateAssignment;
+using Application.Assignments.CreateDirectorApprovalAssignment;
 using Application.Assignments.GetMyWork;
 using Application.Assignments.GetRoleQueue;
 using Application.Assignments.StartAssignment;
@@ -56,6 +58,10 @@ public static class DependencyInjection
         //services.AddScoped<OutboxProcessor>();
         
         services.AddScoped<GetCentersHandler>();
+        
+        services.AddScoped<CompleteAssignmentHandler>();
+        
+        services.AddScoped<CreateDirectorApprovalAssignmentHandler>();
         
         return services;
     }

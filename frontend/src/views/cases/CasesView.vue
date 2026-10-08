@@ -3,8 +3,10 @@ import { computed, onMounted, ref } from 'vue'
 
 import {
   claimAssignment,
+  completeAssignment,
   getMyAssignments,
   getRoleQueue,
+  startAssignment,
   type MyAssignment,
   type QueueAssignment,
 } from '../../api/assignments'
@@ -14,6 +16,8 @@ const queueAssignments = ref<QueueAssignment[]>([])
 
 const loading = ref(false)
 const claimingAssignmentId = ref<string | null>(null)
+const startingAssignmentId = ref<string | null>(null)
+const completingAssignmentId = ref<string | null>(null)
 const errorMessage = ref<string | null>(null)
 
 const activeTab = ref<'mine' | 'queue'>('mine')
@@ -77,6 +81,49 @@ async function claim(assignmentId: string) {
         'Unable to claim the assignment.'
   } finally {
     claimingAssignmentId.value = null
+  }
+}
+
+async function start(assignmentId: string) {
+  startingAssignmentId.value = assignmentId
+  errorMessage.value = null
+
+  try {
+    await startAssignment(assignmentId)
+
+    await loadAssignments()
+  } catch (error) {
+    console.error(
+        'Failed to start assignment:',
+        error
+    )
+
+    errorMessage.value =
+        'Unable to start the assignment.'
+  } finally {
+    startingAssignmentId.value = null
+  }
+}
+
+
+async function complete(assignmentId: string) {
+  completingAssignmentId.value = assignmentId
+  errorMessage.value = null
+
+  try {
+    await completeAssignment(assignmentId)
+
+    await loadAssignments()
+  } catch (error) {
+    console.error(
+        'Failed to complete assignment:',
+        error
+    )
+
+    errorMessage.value =
+        'Unable to complete the assignment.'
+  } finally {
+    completingAssignmentId.value = null
   }
 }
 
@@ -272,13 +319,53 @@ onMounted(loadAssignments)
                 }}
               </button>
 
-              <button
-                  v-else
-                  class="open-button"
-                  type="button"
-              >
-                Open
-              </button>
+              <template v-else>
+                  <!-- Claimed / Assigned -->
+                  <button
+                      v-if="assignment.status === 2"
+                      class="claim-button"
+                      type="button"
+                      :disabled="
+          startingAssignmentId ===
+          assignment.assignmentId
+        "
+                      @click="start(assignment.assignmentId)"
+                  >
+                    {{
+                      startingAssignmentId ===
+                      assignment.assignmentId
+                          ? 'Starting...'
+                          : 'Start'
+                    }}
+                  </button>
+  
+                  <!-- In Progress -->
+                  <button
+                      v-else-if="assignment.status === 5"
+                      class="complete-button"
+                      type="button"
+                      :disabled="
+          completingAssignmentId ===
+          assignment.assignmentId
+        "
+                      @click="complete(assignment.assignmentId)"
+                  >
+                    {{
+                      completingAssignmentId ===
+                      assignment.assignmentId
+                          ? 'Completing...'
+                          : 'Complete'
+                    }}
+                  </button>
+  
+                  <!-- Completed / Cancelled -->
+                  <span
+                      v-else
+                      class="no-action"
+                  >
+      —
+    </span>
+              </template>
             </td>
           </tr>
 
@@ -349,6 +436,38 @@ onMounted(loadAssignments)
 
   border-radius: 6px;
   font-weight: 500;
+}
+
+.refresh-button,
+.open-button,
+.claim-button,
+.complete-button {
+  height: 36px;
+  padding: 0 14px;
+
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.complete-button {
+  border: 1px solid #175cd3;
+  background: #175cd3;
+  color: #ffffff;
+}
+
+.complete-button:hover:not(:disabled) {
+  background: #144fb5;
+}
+
+.refresh-button:disabled,
+.claim-button:disabled,
+.complete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.no-action {
+  color: #98a2b3;
 }
 
 .refresh-button,

@@ -39,3 +39,25 @@ export async function claimAssignment(
         }
     )
 }
+
+export async function startAssignment(
+    assignmentId: string
+): Promise<unknown> {
+    return apiFetch(
+        `/api/assignments/${assignmentId}/start`,
+        {
+            method: 'POST',
+        }
+    )
+}
+
+export async function completeAssignment(
+    assignmentId: string
+): Promise<unknown> {
+    return apiFetch(
+        `/api/assignments/${assignmentId}/complete`,
+        {
+            method: 'POST',
+        }
+    )
+}

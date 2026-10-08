@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +31,14 @@ public static class AuthenticationExtensions
         // Register Shaml JWT authentication as a named scheme.
         // Do NOT make it the global default because Elsa uses "Bearer".
         services
-            .AddAuthentication()
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                    AuthenticationSchemes.Shaml;
+
+                options.DefaultChallengeScheme =
+                    AuthenticationSchemes.Shaml;
+            })
             .AddJwtBearer(
                 AuthenticationSchemes.Shaml,
                 options =>
@@ -55,6 +63,29 @@ public static class AuthenticationExtensions
 
                             ClockSkew = TimeSpan.FromSeconds(30)
                         };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = context =>
+                        {
+                            var principal = context.Principal;
+
+                            var hasElsaAccess =
+                                string.Equals(
+                                    principal?.FindFirstValue("elsa_access"),
+                                    "true",
+                                    StringComparison.OrdinalIgnoreCase);
+
+                            if (hasElsaAccess &&
+                                principal?.Identity is ClaimsIdentity identity)
+                            {
+                                identity.AddClaim(
+                                    new Claim("permissions", "*"));
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
         // Shaml business-user authorization.

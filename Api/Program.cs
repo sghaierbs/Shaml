@@ -1,13 +1,85 @@
 using Api.Authentication;
+using Api.BackgroundServices;
 using Api.Endpoints;
 using Application;
+using Application.Common.Outbox;
+using Elsa.Extensions;
+using Elsa.Persistence.EFCore;
+using Elsa.Persistence.EFCore.Extensions;
+using Elsa.Persistence.EFCore.Modules.Identity;
+using Elsa.Persistence.EFCore.Modules.Management;
+using Elsa.Persistence.EFCore.Modules.Runtime;
 using Infrastructure;
+using Shaml.Workflows.Elsa;
+using Shaml.Workflows.Elsa.Activities;
+using Shaml.Workflows.Elsa.Workflows;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var elsaConnectionString =
+    builder.Configuration.GetConnectionString("Elsa")
+    ?? throw new InvalidOperationException(
+        "Connection string 'Elsa' was not found.");
+
+const string elsaSchema = "elsa";
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddElsa(elsa =>
+{
+    elsa.UseWorkflowManagement(management =>
+        management.UseEntityFrameworkCore(ef =>
+            ef.UsePostgreSql(
+                elsaConnectionString,
+                new ElsaDbContextOptions
+                {
+                    SchemaName = elsaSchema
+                })));
+
+    elsa.UseWorkflowRuntime(runtime =>
+        runtime.UseEntityFrameworkCore(ef =>
+            ef.UsePostgreSql(
+                elsaConnectionString,
+                new ElsaDbContextOptions
+                {
+                    SchemaName = elsaSchema
+                })));
+
+    elsa.UseIdentity(identity =>
+    {
+        identity.UseEntityFrameworkCore(ef =>
+            ef.UsePostgreSql(
+                elsaConnectionString,
+                new ElsaDbContextOptions
+                {
+                    SchemaName = elsaSchema
+                }));
+
+        identity.UseDefaultAdmin(
+            "admin",
+            "admin123",
+            "admin",
+            ["*"]);
+
+        identity.TokenOptions = options =>
+        {
+            options.SigningKey =
+                "shaml-elsa-poc-signing-key-change-in-production-2026";
+        };
+    });
+
+    elsa.UseWorkflowsApi();
+
+    elsa.AddActivity<WaitForAssignmentCompleted>();
+    elsa.AddActivity<CreateDirectorApprovalAssignment>();
+    elsa.AddWorkflow<CaseWorkflow>();
+    elsa.AddWorkflow<ShamlPocWorkflow>();
+});
+
+builder.Services.AddShamlWorkflowServices();
+builder.Services.AddScoped<OutboxProcessor>();
+builder.Services.AddHostedService<OutboxBackgroundService>();
 
 builder.Services.AddControllers();
 
@@ -81,9 +153,7 @@ app.MapAssignmentEndpoints();
 // Elsa
 // -------------------------------
 
-// app.MapWorkflowsApi();
-
-// app.UseWorkflows();
+app.MapWorkflowsApi();
 
 // -------------------------------
 // Swagger

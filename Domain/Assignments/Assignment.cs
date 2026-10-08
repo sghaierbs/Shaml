@@ -1,3 +1,4 @@
+using Domain.Assignments.Events;
 using Domain.Common;
 
 namespace Domain.Assignments;
@@ -169,7 +170,7 @@ public sealed class Assignment : AggregateRoot
         if (Status == AssignmentStatus.Completed)
         {
             throw new InvalidOperationException(
-                "The assignment is already completed.");
+                "Assignment is already completed.");
         }
 
         if (Status == AssignmentStatus.Cancelled)
@@ -178,26 +179,30 @@ public sealed class Assignment : AggregateRoot
                 "A cancelled assignment cannot be completed.");
         }
 
-        // Role queue assignments must first be claimed and started.
         if (TargetType == AssignmentTargetType.RoleQueue &&
             Status != AssignmentStatus.InProgress)
         {
             throw new InvalidOperationException(
-                "A role queue assignment must be in progress before it can be completed.");
+                "A role queue assignment must be in progress before completion.");
         }
 
-        // Direct assignments such as public-user assignments
-        // can be completed without being claimed.
         if (TargetType != AssignmentTargetType.RoleQueue &&
             Status != AssignmentStatus.Open &&
             Status != AssignmentStatus.InProgress)
         {
             throw new InvalidOperationException(
-                "The assignment cannot be completed in its current state.");
+                "Assignment cannot be completed from its current status.");
         }
 
         Status = AssignmentStatus.Completed;
         CompletedAtUtc = completedAtUtc;
+
+        RaiseDomainEvent(
+            new AssignmentCompletedEvent(
+                Id,
+                CaseId,
+                TaskCode,
+                completedAtUtc));
     }
     
     public void Cancel()

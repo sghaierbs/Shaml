@@ -1,6 +1,7 @@
 using Api.Authentication;
 using Application.Assignments;
 using Application.Assignments.ClaimAssignment;
+using Application.Assignments.CompleteAssignment;
 using Application.Assignments.CreateAssignment;
 using Application.Assignments.GetMyWork;
 using Application.Assignments.GetRoleQueue;
@@ -75,6 +76,23 @@ public static class AssignmentEndpoints
                     return Results.Ok(result);
                 })
             .RequireAuthorization(AuthorizationPolicies.ShamlUser);
+        
+        app.MapPost(
+                "/api/assignments/{assignmentId:guid}/complete",
+                async (
+                    Guid assignmentId,
+                    CompleteAssignmentHandler handler,
+                    CancellationToken cancellationToken) =>
+                {
+                    var result = await handler.HandleAsync(
+                        new CompleteAssignmentCommand(
+                            assignmentId),
+                        cancellationToken);
+
+                    return Results.Ok(result);
+                })
+            .RequireAuthorization(
+                AuthorizationPolicies.ShamlUser);
 
         // --------------------------------------------------
         // Role queue
