@@ -40,6 +40,9 @@ public class CenterConfiguration : IEntityTypeConfiguration<Center>
         builder.Property(x => x.Email)
             .HasMaxLength(200);
 
+        builder.Property(x => x.ActiveCaseCapacity)
+            .IsRequired(false);
+
         builder.Property(x => x.Status)
             .HasConversion<int>()
             .IsRequired();

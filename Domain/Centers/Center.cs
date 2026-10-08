@@ -104,6 +104,21 @@ public class Center : AggregateRoot
         return Status == CenterStatus.Active && activeCaseCount < ActiveCaseCapacity.Value;
     }
 
+    /// <summary>
+    /// Director-authorized admission bypasses the automatic capacity threshold.
+    /// Authorization and the pending-case transition must be enforced by the application handler.
+    /// </summary>
+    public bool CanAdmitCase(int activeCaseCount, bool isDirectorOverride)
+    {
+        if (activeCaseCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(activeCaseCount));
+
+        if (Status != CenterStatus.Active)
+            return false;
+
+        return isDirectorOverride || HasAvailableCapacity(activeCaseCount);
+    }
+
     public void Activate()
     {
         Status = CenterStatus.Active;
