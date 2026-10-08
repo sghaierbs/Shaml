@@ -13,6 +13,10 @@ public class Center : AggregateRoot
     public string? Phone { get; private set; }
     public string? Email { get; private set; }
 
+    // Maximum number of active cases the center can handle concurrently.
+    // Null means capacity has not yet been configured.
+    public int? ActiveCaseCapacity { get; private set; }
+
     public CenterStatus Status { get; private set; }
 
     public DateTime CreatedAtUtc { get; private set; }
@@ -79,6 +83,25 @@ public class Center : AggregateRoot
             new CenterCreatedEvent(center.Id, center.Code));
 
         return center;
+    }
+
+    public void ConfigureActiveCaseCapacity(int capacity)
+    {
+        if (capacity <= 0)
+            throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
+
+        ActiveCaseCapacity = capacity;
+    }
+
+    public bool HasAvailableCapacity(int activeCaseCount)
+    {
+        if (activeCaseCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(activeCaseCount));
+
+        if (ActiveCaseCapacity is null)
+            throw new InvalidOperationException("Center active case capacity has not been configured.");
+
+        return Status == CenterStatus.Active && activeCaseCount < ActiveCaseCapacity.Value;
     }
 
     public void Activate()
